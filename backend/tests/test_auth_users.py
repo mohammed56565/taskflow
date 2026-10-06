@@ -128,7 +128,9 @@ def test_concurrent_admin_changes_keep_one_active(env):
         }).status_code
     with ThreadPoolExecutor(max_workers=2) as pool:
         results = list(pool.map(demote, [1, 5]))
-    assert 200 in results
-    assert all(code in [200, 401, 409] for code in results)
+    assert results.count(200) == 1, results
+    # Self-demotion can make the other request fail its session check (401)
+    # or role check (403), before it reaches the last-admin guard (409).
+    assert all(code in [200, 401, 403, 409] for code in results), results
     with sessions() as db:
         assert db.scalar(select(func.count(User.id)).where(User.role == 'Admin', User.is_active.is_(True))) == 1
