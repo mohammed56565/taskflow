@@ -266,10 +266,10 @@ Actual `.env` files are ignored by Git and Docker. Do not publish them. The API 
 From `backend` with the virtual environment active:
 
 ```sh
-pytest -q
+python -m pytest -q
 ```
 
-The default test fixture uses an isolated in-memory SQLite database. The PostgreSQL concurrency test is skipped in that mode. To run the entire suite against PostgreSQL, set `TEST_DATABASE_URL` to a **dedicated disposable test database**, then run `pytest -q` again. The fixture drops and recreates application tables in that test database for each test; never use an application or production database.
+The default test fixture uses an isolated in-memory SQLite database. The PostgreSQL concurrency test is skipped in that mode. To run the entire suite against PostgreSQL, set `TEST_DATABASE_URL` to a **dedicated disposable test database**, then run `python -m pytest -q` again. The fixture drops and recreates application tables in that test database for each test; never use an application or production database.
 
 Migration checks, also on a disposable database:
 

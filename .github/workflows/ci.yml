@@ -33,7 +33,7 @@ jobs:
       - run: alembic check
       - run: alembic downgrade base
       - run: alembic upgrade head
-      - run: pytest -q
+      - run: python -m pytest -q
   frontend:
     runs-on: ubuntu-latest
     steps:
